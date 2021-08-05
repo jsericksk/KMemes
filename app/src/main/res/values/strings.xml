@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">KMemes</string>
+    <string name="error_gettin_image_list">Unable to get images from server.</string>
+</resources>
