@@ -27,4 +27,10 @@ Finally, upload your memes/images to this folder and compile the project for tes
 
 All this was done for study purposes only.
 
+## Uses
+
+[Coil](https://coil-kt.github.io/coil/compose/): for loading images.  
+[Coroutines](https://developer.android.com/kotlin/coroutines): for Firebase access.  
+[Navigation with Compose](https://developer.android.com/jetpack/compose/navigation): for navigating between Composable screens using Compose's Navigation component.  
+
 **Jetpack Compose supremacy!** 🧎
