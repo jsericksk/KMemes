@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kproject.kmemes.R
+import com.kproject.kmemes.navigation.Navigation
 import com.kproject.kmemes.ui.screens.ImageListScreen
 import com.kproject.kmemes.ui.theme.KMemesTheme
 
@@ -20,32 +21,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             KMemesTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    MainScreen()
+                    Navigation()
                 }
             }
-        }
-    }
-
-    @ExperimentalFoundationApi
-    @Composable
-    fun MainScreen() {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(stringResource(id = R.string.app_name)) }
-                )
-            }
-        ) {
-            ImageListScreen()
-        }
-    }
-
-    @ExperimentalFoundationApi
-    @Preview(showBackground = true)
-    @Composable
-    fun DefaultPreview() {
-        KMemesTheme {
-            MainScreen()
         }
     }
 }

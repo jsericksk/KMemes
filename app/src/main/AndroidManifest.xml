@@ -23,9 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.ImageViewerActivity"
-            android:theme="@style/Theme.KMemes.NoActionBar" />
     </application>
 
 </manifest>

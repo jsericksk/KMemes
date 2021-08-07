@@ -1,6 +1,6 @@
 package com.kproject.kmemes.ui.screens
 
-import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -8,33 +8,47 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.kproject.kmemes.R
+import com.kproject.kmemes.navigation.Screen
 import com.kproject.kmemes.repository.ImageRepository
-import com.kproject.kmemes.ui.ImageViewerActivity
 import com.kproject.kmemes.ui.MainViewModel
 import com.kproject.kmemes.utils.Constants
 
 @ExperimentalFoundationApi
 @Composable
-fun ImageListScreen(
+fun MainScreen(navController: NavController) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(id = R.string.app_name)) }
+            )
+        }
+    ) {
+        ImageList(navController = navController)
+    }
+}
+
+
+@ExperimentalFoundationApi
+@Composable
+fun ImageList(
     mainViewModel: MainViewModel = viewModel(
         factory = MainViewModel.MainViewModelFactory(ImageRepository())
-    )
+    ),
+    navController: NavController
 ) {
     val imageUrlList by mainViewModel.imagesLiveData.observeAsState()
     val result by mainViewModel.resultLiveData.observeAsState(initial = Constants.ResultCallback.LOADING)
@@ -51,7 +65,7 @@ fun ImageListScreen(
                     cells = GridCells.Fixed(3)
                 ) {
                     items(images) { imageUrl ->
-                        ImageListItem(imageUrl)
+                        ImageListItem(imageUrl, navController)
                     }
                 }
             }
@@ -74,8 +88,7 @@ fun Loading() {
 }
 
 @Composable
-fun ImageListItem(imageUrl: String) {
-    val context = LocalContext.current
+fun ImageListItem(imageUrl: String, navController: NavController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -96,10 +109,11 @@ fun ImageListItem(imageUrl: String) {
                 .width(200.dp)
                 .height(150.dp)
                 .clickable {
-                    context.startActivity(
-                        Intent(context, ImageViewerActivity::class.java)
-                            .putExtra("imageUrl", imageUrl)
-                    )
+                    /**
+                     * It is necessary to encode the URL so that there are no errors when passing
+                     * the argument through Navigation.
+                     */
+                    navController.navigate(Screen.ImageViewerScreen.withArgs(Uri.encode(imageUrl)))
                 }
         )
     }
