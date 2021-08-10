@@ -7,9 +7,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.kproject.kmemes.ui.screens.ImageViewerScreen
 import com.kproject.kmemes.ui.screens.MainScreen
 
+@ExperimentalPagerApi
 @ExperimentalFoundationApi
 @Composable
 fun Navigation() {

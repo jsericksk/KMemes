@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.kproject.kmemes.model.Image
 import com.kproject.kmemes.repository.ImageRepository
 import com.kproject.kmemes.repository.ImageResultCallback
 import com.kproject.kmemes.utils.Constants
@@ -12,15 +13,21 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val imageRepository: ImageRepository
 ) : ViewModel() {
-    val imagesLiveData = MutableLiveData<List<String>>()
+    val popularMemeListLiveData = MutableLiveData<List<Image>>()
+    val animeMemeListLiveData = MutableLiveData<List<Image>>()
+
     val resultLiveData = MutableLiveData<Int>()
 
-    fun getImages() {
+    fun getImages(memeList: String) {
         viewModelScope.launch {
-            imageRepository.getImages { imageResult ->
+            imageRepository.getImages(memeList) { imageResult ->
                 when (imageResult) {
                     is ImageResultCallback.Success -> {
-                        imagesLiveData.postValue(imageResult.imageList)
+                        if (memeList == Constants.MemeList.POPULAR) {
+                            popularMemeListLiveData.postValue(imageResult.imageList)
+                        } else if (memeList == Constants.MemeList.ANIME) {
+                            animeMemeListLiveData.postValue(imageResult.imageList)
+                        }
                         resultLiveData.postValue(Constants.ResultCallback.SUCCESS)
                     }
                     is ImageResultCallback.Error -> {
