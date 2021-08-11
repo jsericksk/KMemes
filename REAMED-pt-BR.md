@@ -4,7 +4,6 @@ Projeto simples que utiliza o Firebase Cloud Storage e o Realtime Database, com 
 
 <p align="center">
   <img src="screenshots/demo.gif" width="320" height="580" />
- 
 </p>
 
 ## Clone
