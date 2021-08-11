@@ -2,6 +2,11 @@
 
 Projeto simples que utiliza o Firebase Cloud Storage e o Realtime Database, com foco no novo kit de ferramentas moderno para criar IUs declarativas do Android, [Jetpack Compose](https://developer.android.com/jetpack/compose). O projeto também segue a arquitetura [MVVM](https://developer.android.com/jetpack/guide) com **ViewModel** e **LiveData**.
 
+<p align="center">
+  <img src="screenshots/demo.gif" width="320" height="580" />
+ 
+</p>
+
 ## Clone
 
 Se você desejar clonar e testar este projeto, primeiro deve ter uma conta Firebase e se conectar ao seu projeto. Siga os seguintes passos:
