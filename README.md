@@ -1,36 +1,61 @@
+<p align="center">
+  <a href="REAMED-pt-BR.md">Read README in Portuguese Version</a>
+</p>
+
 ## About
 
-Simple project that loads images from Firebase Cloud Storage, focusing on the new modern toolkit for creating Android declarative UIs, [Jetpack Compose](https://developer.android.com/jetpack/compose). The project also follows the [MVVM](https://developer.android.com/jetpack/guide) architecture with **ViewModel** and **LiveData**.
+Simple project using Firebase Cloud Storage and Realtime Database, focusing on the new modern toolkit for creating Android declarative UIs, [Jetpack Compose](https://developer.android.com/jetpack/compose). The project also follows the [MVVM](https://developer.android.com/jetpack/guide) architecture with **ViewModel** and **LiveData**.
 
 <p align="center">
-  <img src="screenshots/screenshot-01.gif" width="300" height="600" />
-  <img src="screenshots/screenshot-02.png" width="300" height="600" />
+  <img src="screenshots/demo.gif" width="320" height="580" />
 </p>
 
 ## Clone
 
 If you want to clone and test this project, you must first have a Firebase account and connect to your project. Follow these steps:
+1. Connect to Firebase:
+- [Login to Firebase](https://console.firebase.google.com) and then create a project with any name, following all the steps described on the site during creation. Follow the [official guide](https://firebase.google.com/docs/android/setup) for project setup or more information.
+2. Configure **Storage**:
+- With the Firebase project properly connected to your Android Studio project, open the **Storage** option in the Firebase console and create two folders to store your images (memes), one for popular memes and one for anime memes. This is for organizational purposes only.
+- Upload the images to the corresponding folders.
+- For each image you upload, you will have to copy their direct link. The link should look something like this: https://firebasestorage.googleapis.com/v0/b/YOUR-PROJECT.appspot.com/o/FOLDER%2FIMAGE-NAME.jpg?alt=media&token=TOKEN. These links will be used in JSON which will act as an API in our Realtime Database.
+- Having the link of all images, go to the last step.
+3. Configure the **Realtime Database**:
+- You will have to have a JSON with the following structure:
 
-- [Login to Firebase](https://console.firebase.google.com) and then create a project with any name, following all the steps described on the website during creation.
-- Link your app to the Firebase console by adding the package name used in this project (**com.kproject.kmemes**, or your own if you have modified it).
-- SHA-1 is not required for this project, but you can add it if you wish.
-- Download and insert the **google-services.json file into the app module root of the project**, as mentioned in the Firebase configuration steps.
-- If you wish, follow the [official guide](https://firebase.google.com/docs/android/setup) for project setup or more information.
-- With the Firebase project properly connected to your Android Studio project, open the **Storage** option and create a folder named **images**. If you want to create a folder with another name, like **memes**, for example, modify the getImages() method of the [ImageRepository](https://github.com/jsericksk/KMemes/blob/main/app/src/main/java/com/kproject/kmemes/repository/ImageRepository.kt) class, so it lists all images in *memes* and not *images*.
-Finally, upload your memes/images to this folder and compile the project for testing.
+```
+{
+  "popular": [
+    {
+      "imageUrl": "IMAGE-URL",
+      "imageName": "Image Name"
+    }
+    // More popular memes...
+  ],
+  "anime": [
+    {
+      "imageUrl": "IMAGE-URL",
+      "imageName": "Image Name"
+    }
+    // More anime memes...
+  ]
+}
+```
 
-## Important notes
+- You have two options:
+1. Create a JSON file with the links you copied and, after that, import the JSON into Realtime Database;
+2. Manually create this entire structure in the Realtime Database dashboard, adding the **imageUrl** and **imageName** values ​​one at a time.
 
-1. The project uses the library [lifecycle-viewmodel-compose](https://developer.android.com/jetpack/androidx/releases/lifecycle#lifecycle_viewmodel_compose_2) which is still in alpha version.
-2. The component [LazyVerticalGrid](https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/package-summary#LazyVerticalGrid(androidx.compose.foundation.lazy.GridCells,androidx.compose.ui.Modifier,androidx.compose.foundation.lazy.LazyListState,androidx.compose.foundation.layout.PaddingValues,kotlin.Function1)) is also used, which is still experimental. The documentation recommends using **LazyColumn** and **Row** to achieve the same result.
-3. To get the image's download URL, you need a call to the downloadUrl method, which is asynchronous. This means that ***for every image you have on Storage, a request will be made to get your download URL***. In addition to taking a long time to get all the URLs, a high cost of unnecessary traffic is generated in the project, depending on the quantity and file size of the images. That said, it's recommended that you don't upload too many images to the Firebase project so you don't have too much delay getting their URLs into the app.
+No matter which choice, the JSON must have the values ​​mentioned above.
+If after importing the JSON into the Realtime Database panel the structure is different from your JSON file, with the *anime* array being at the beginning, instead of the *popular* array, you don't need to worry. This will not affect the search for values ​​in the application, the important thing is that the JSON has those values.  
 
-All this was done for study purposes only.
+All of this was done for study purposes only.
 
-## Uses
+## Libraries used
 
-[Coil](https://coil-kt.github.io/coil/compose/): for loading images.  
-[Coroutines](https://developer.android.com/kotlin/coroutines): for Firebase access.  
-[Navigation with Compose](https://developer.android.com/jetpack/compose/navigation): for navigating between Composable screens using Compose's Navigation component.  
+[Coil](https://coil-kt.github.io/coil/compose/): to load images.  
+[Accompanist-Pager](https://google.github.io/accompanist/pager/): for using "ViewPager" with Tabs.  
+[Navigation with Compose](https://developer.android.com/jetpack/compose/navigation): to navigate between Compose screens using Compose's Navigation Component.  
+[Coroutines](https://developer.android.com/kotlin/coroutines): for Firebase access in an IO thread.  
 
 **Jetpack Compose supremacy!** 🧎
